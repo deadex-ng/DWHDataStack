@@ -6,7 +6,6 @@ For more Data & Analytics related reading, check https://analyticsmayhem.com
 ## Requirements 
 * Install [Docker](https://www.docker.com/products/docker-desktop)
 * Install [Docker Compose](https://docs.docker.com/compose/install/)
-* Download the [Kaggle Instacart eCommerce dataset](https://www.kaggle.com/c/instacart-market-basket-analysis/data) 
 
 ## Setup 
 * Clone the repository
@@ -22,26 +21,6 @@ Change directory within the repository and run `docker-compose up`. This will pe
 ## Connections
 * Adminer UI: [http://localhost:8080](http://localhost:8080/?pgsql=postgres-dbt&username=dbtuser&db=dbtdb&ns=dbt) Credentials as defined at [`docker-compose.yml`](https://github.com/konosp/dbt-airflow-docker-compose/blob/master/docker-compose.yml)
 * Airflow UI: http://localhost:8000
-
-## How to ran the DAGs
-Once everything is up and running, navigate to the Airflow UI (see connections above). You will be presented with the list of DAGs, all Off by default.
-
-<img src="https://storage.googleapis.com/analyticsmayhem-blog-files/dbt-airflow-docker/dbt-dags-list.png" width="70%"></img>
-
-You will need to run to execute them in correct order. 
-- 1_load_initial_data: Load the raw Kaggle dataset
-- 2_init_once_dbt_models: Perform some basic transformations (i.e. build an artificial date for the orders)
-- 3_snapshot_dbt_models: Build the snapshot tables
-- 4_daily_dbt_models: Schedule the daily models. The starting date is set on Jan 6th, 2019. This will force Ariflow to backfill all date for those dates. So leave that for last.
-
-<img src="https://storage.googleapis.com/analyticsmayhem-blog-files/dbt-airflow-docker/dbt-dag-triggering.png" width="70%"></img>
-
-If everything goes well, you should have the daily model execute successfully and see similar task durations as per below.
-
-<img src="https://storage.googleapis.com/analyticsmayhem-blog-files/dbt-airflow-docker/dbt-task-duration-over-time.png" width="70%"></img>
-
-Finally, within Adminer you can view the final models.
-<img src="https://storage.googleapis.com/analyticsmayhem-blog-files/dbt-airflow-docker/dbt-adminer-view.png" width="70%"></img>
 
 ## Docker Compose Commands
 * Enable the services: `docker-compose up` or `docker-compose up -d` (detatches the terminal from the services' log)
